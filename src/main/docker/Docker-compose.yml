@@ -1,0 +1,45 @@
+services:
+  service1:
+    image: camunda/demo-microservice
+    environment:
+      workerType: concatinate1
+      consulDiscoveryPort: 8080
+    ports:
+      - 8080:8080
+    networks:
+      - proxy
+
+  service2:
+    image: camunda/demo-microservice
+    environment:
+      workerType: concatinate2
+      consulDiscoveryPort: 8081
+    ports:
+      - 8081:8081
+    networks:
+      - proxy
+
+  service3:
+    image: camunda/demo-microservice
+    environment:
+      workerType: concatinate3
+      consulDiscoveryPort: 8082
+    ports:
+      - 8082:8082
+    networks:
+      - proxy
+
+  consul:
+    image: consul:latest
+    command: "agent -bootstrap -server -ui -client 0.0.0.0"
+    environment:
+      CONSUL_BIND_INTERFACE: eth0
+    ports:
+      - 8500:8500
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external:
+      name: proxy
