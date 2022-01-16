@@ -7,6 +7,9 @@ import io.camunda.zeebe.spring.client.EnableZeebeClient;
 import io.camunda.zeebe.spring.client.ZeebeClientLifecycle;
 import io.camunda.zeebe.spring.client.annotation.ZeebeDeployment;
 import io.camunda.zeebe.spring.client.annotation.ZeebeWorker;
+import org.apache.http.client.utils.URIBuilder;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -17,6 +20,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 @SpringBootApplication
@@ -28,14 +39,18 @@ public class DemoApplication {
 	private ZeebeClientLifecycle client;
 
 	public static void main(String[] args) {
-//		new SpringApplicationBuilder(DemoApplication.class).web(WebApplicationType.SERVLET).run(args);
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
 	@Value("${workerType:}")
 	private String postfix;
+	@Value("${deeplAuthKey:}")
+	private String deeplAuthKey;
+	@Value("${targetLanguage:EN}")
+	private String targetLanguage;
 
-	private void handleConcatination(final JobClient client, final ActivatedJob job) {
+	@ZeebeWorker(type = "${workerType:concatinate1}")
+	public void handleConcatination(final JobClient client, final ActivatedJob job) {
 		Map<String,Object> variables = job.getVariablesAsMap();
 		String content = (String) variables.getOrDefault("content", "");
 		variables.put("content", content + "_" + postfix);
@@ -52,11 +67,6 @@ public class DemoApplication {
 				});
 	}
 
-	@ZeebeWorker(type = "${workerType:concatinate1}")
-	public void handleJobConcatinate(final JobClient client, final ActivatedJob job) {
-		handleConcatination(client, job);
-	}
-
 	@GetMapping("/status")
 	public String getStatus() {
 		Topology topology = client.newTopologyRequest().send().join();
@@ -67,7 +77,7 @@ public class DemoApplication {
 	public String startWorkflowInstance(@PathVariable String value) {
 		Long instanceKey = client
 				.newCreateInstanceCommand()
-				.bpmnProcessId("nonsenseProcess")
+				.bpmnProcessId("brewCoffeeProcess")
 				.latestVersion()
 				.variables("{\"content\":\"" + value + "\"}")
 				.send()
@@ -78,5 +88,22 @@ public class DemoApplication {
 	@GetMapping("/actuator/health")
 	public String getHealth() {
 		return "OK";
+	}
+
+	private String translateText(String content) throws IOException, InterruptedException {
+		String urlEncodedText = URLEncoder.encode(content, StandardCharsets.UTF_8);
+		String urlEncodedAuthKey = URLEncoder.encode(deeplAuthKey, StandardCharsets.UTF_8);
+		HttpRequest request = HttpRequest.newBuilder()
+				.uri(URI.create("https://api-free.deepl.com/v2/translate"))
+				.header("User-Agent", "Insomnia Test")
+				.header("Accept", "*/*")
+				.header("Content-Type", "application/x-www-form-urlencoded")
+				.method("POST", HttpRequest.BodyPublishers.ofString("text=" + urlEncodedText + "&target_lang=" + targetLanguage + "&auth_key=" + urlEncodedAuthKey))
+				.build();
+		HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+		JSONObject jsonResponse = new JSONObject(response.body());
+		JSONArray jsonTranslations = jsonResponse.optJSONArray("translations");
+		JSONObject jsonTranslation = null != jsonTranslations ? jsonTranslations.getJSONObject(0) : new JSONObject();
+		return jsonTranslation.optString("text", content);
 	}
 }
