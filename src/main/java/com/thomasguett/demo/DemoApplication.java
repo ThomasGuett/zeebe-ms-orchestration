@@ -54,7 +54,7 @@ public class DemoApplication {
 	private ZeebeClientLifecycle client;
 
 	/* GoogleDrive */
-	private static final String CREDENTIALS_FILE_PATH = "/credentials-desktop.json";
+	private static final String CREDENTIALS_FILE_PATH = "/credentials-google.json";
 	private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
 	private static final List<String> SCOPES = Collections.singletonList(DriveScopes.DRIVE);
 	private static final String TOKENS_DIRECTORY_PATH = "tokens";
@@ -120,7 +120,7 @@ public class DemoApplication {
 
 				String folderId = files.get(0).getId();
 				File fileMetadata = new File();
-				fileMetadata.setName("test.txt");
+				fileMetadata.setName(fileName);
 				fileMetadata.setParents(Collections.singletonList(folderId));
 				java.io.File binaryFile = new java.io.File(fileName);
 				binaryFile.createNewFile();
@@ -178,7 +178,7 @@ public class DemoApplication {
 	private Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
 		InputStream in = DemoApplication.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
 		if (null == in) {
-			throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
+			throw new FileNotFoundException("GoogleDrive credentials not found: " + CREDENTIALS_FILE_PATH);
 		}
 		GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 

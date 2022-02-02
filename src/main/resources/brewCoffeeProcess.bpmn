@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" id="Definitions_0rbumvm" targetNamespace="http://bpmn.io/schema/bpmn" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="1.2.0">
+  <bpmn:process id="brewCoffeeProcess" name="brew-coffee" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_0e8962i</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="Activity_0b0hstn" name="place cup">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="place-cup" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0ohxac4</bpmn:incoming>
+      <bpmn:outgoing>Flow_022ai3u</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_1dx2gwi" name="grind coffee">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="grind-coffee" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_022ai3u</bpmn:incoming>
+      <bpmn:outgoing>Flow_1t3zz9r</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_0jfdh73" name="pour water">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="pour-water" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0e8962i</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ohxac4</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_0244j1e">
+      <bpmn:incoming>Flow_0629iwe</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Activity_06tbz97" name="to Kafka">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="ping" />
+        <zeebe:taskHeaders>
+          <zeebe:header key="topic" value="pong" />
+        </zeebe:taskHeaders>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>Flow_0629iwe</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0629iwe" sourceRef="Activity_06tbz97" targetRef="Event_0244j1e" />
+    <bpmn:serviceTask id="Activity_0dwahca" name="to GoogleDrive">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="googleDrive" />
+      </bpmn:extensionElements>
+      <bpmn:outgoing>Flow_1ulhmpw</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0e8962i" sourceRef="StartEvent_1" targetRef="Activity_0jfdh73" />
+    <bpmn:sequenceFlow id="Flow_0ohxac4" sourceRef="Activity_0jfdh73" targetRef="Activity_0b0hstn" />
+    <bpmn:sequenceFlow id="Flow_022ai3u" sourceRef="Activity_0b0hstn" targetRef="Activity_1dx2gwi" />
+    <bpmn:endEvent id="Event_0tobr0z">
+      <bpmn:incoming>Flow_1t3zz9r</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1t3zz9r" sourceRef="Activity_1dx2gwi" targetRef="Event_0tobr0z" />
+    <bpmn:endEvent id="Event_1ilwa04">
+      <bpmn:incoming>Flow_1ulhmpw</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1ulhmpw" sourceRef="Activity_0dwahca" targetRef="Event_1ilwa04" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="brewCoffeeProcess">
+      <bpmndi:BPMNEdge id="Flow_1t3zz9r_di" bpmnElement="Flow_1t3zz9r">
+        <di:waypoint x="700" y="130" />
+        <di:waypoint x="782" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_022ai3u_di" bpmnElement="Flow_022ai3u">
+        <di:waypoint x="520" y="130" />
+        <di:waypoint x="600" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ohxac4_di" bpmnElement="Flow_0ohxac4">
+        <di:waypoint x="350" y="130" />
+        <di:waypoint x="420" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0e8962i_di" bpmnElement="Flow_0e8962i">
+        <di:waypoint x="188" y="130" />
+        <di:waypoint x="250" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0629iwe_di" bpmnElement="Flow_0629iwe">
+        <di:waypoint x="1150" y="117" />
+        <di:waypoint x="1202" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ulhmpw_di" bpmnElement="Flow_1ulhmpw">
+        <di:waypoint x="1150" y="270" />
+        <di:waypoint x="1202" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="152" y="112" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1qi3eqp_di" bpmnElement="Activity_0b0hstn">
+        <dc:Bounds x="420" y="90" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1gsk6ym_di" bpmnElement="Activity_1dx2gwi">
+        <dc:Bounds x="600" y="90" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0oug95a_di" bpmnElement="Activity_0jfdh73">
+        <dc:Bounds x="250" y="90" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0244j1e_di" bpmnElement="Event_0244j1e">
+        <dc:Bounds x="1202" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1she82x_di" bpmnElement="Activity_06tbz97">
+        <dc:Bounds x="1050" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1a5xe2v_di" bpmnElement="Activity_0dwahca">
+        <dc:Bounds x="1050" y="230" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0tobr0z_di" bpmnElement="Event_0tobr0z">
+        <dc:Bounds x="782" y="112" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1ilwa04_di" bpmnElement="Event_1ilwa04">
+        <dc:Bounds x="1202" y="252" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
