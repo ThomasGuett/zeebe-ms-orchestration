@@ -1,0 +1,66 @@
+<html>
+<head>
+
+</head>
+<body>
+<style>
+    .output { width:150px; height:25px }
+</style>
+<h2>Setup Demo</h2>
+<h3>prepare Google Drive (optional)</h3>
+<p>Authorize Google Drive: <a href="/authorizegoogledrive" target="_blank">start OAuth</a></p>
+<h3>prepare Kafka Connection (optional)</h3>
+<form action="/createZeebeSourceConnector" method="post" id="createKafkaSourceForm" target="sourceCreationResponse">
+    <table>
+        <tr>
+            <td><label for="sourceName">( 1 - To ) Kafka Source Name:</label></td>
+            <td><input type="text" id="sourceName" name="name"></td>
+            <td><input type="submit" value="create"/></td>
+            <td><iframe name="sourceCreationResponse" class="output"></iframe></td>
+        </tr>
+    </table>
+</form>
+<form action="/createZeebeSinkConnector" method="post" id="createKafkaSinkForm" target="sinkCreationResponse">
+    <table>
+        <tr>
+            <td><label for="sinkName">(2 - From ) Kafka Sink Name:</label></td>
+            <td><input type="text" id="sinkName" name="name"></td>
+            <td><input type="submit" value="create"/></td>
+            <td><iframe name="sinkCreationResponse" class="output"></iframe></td>
+        </tr>
+    </table>
+</form>
+<form action="/startInstance" method="post" id="startInstanceForm" target="instanceId">
+    <h3>Start instance</h3>
+    <p>provide these infos if you intend to send it to Kafka</p>
+    <table>
+        <tr>
+            <td>
+                <label for="kafkaKey">Kafka Key:</label>
+            </td>
+            <td>
+                <input type="text" id="kafkaKey" name="kafkaKey"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="kafkaTopicName">Topic name:</label>
+            </td>
+            <td>
+                <input type="text" id="kafkaTopicName" name="kafkaTopicName"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="submit" form="startInstanceForm" value="start new Instance"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <iframe name="instanceId" class="output"></iframe>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

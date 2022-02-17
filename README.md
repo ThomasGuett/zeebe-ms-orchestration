@@ -43,11 +43,17 @@ docker build -t camunda/demo-microservice .
 cd into ../demo/src/main/docker/
 docker-compose up
 
+# convenient Setup page
+open [http://localhost:8090](http://localhost:8090) to find a ugly but convenient demo setup page
+    - it allows for GDriva authorization
+    - Kafka Sink/Source creation
+    - Start of new Process Instances
+
 # authorize google drive
 open [http://localhost:8090/authorizegoogledrive](http://localhost:8090/authorizegoogledrive)
 
 # check up-status of microservices (grind coffee, etc. ) - consul
-open [http://localhost:8500](http://localhost:9021/)
+open [http://localhost:8500](http://localhost:8500/)
 
 # check Kafka cluster health
 open [http://localhost:9021](http://localhost:9021/)
