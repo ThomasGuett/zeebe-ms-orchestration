@@ -44,8 +44,8 @@ cd into ../demo/src/main/docker/
 docker-compose up
 
 # convenient Setup page
-open [http://localhost:8090](http://localhost:8090) to find a ugly but convenient demo setup page
-    - it allows for GDriva authorization
+open [http://localhost:8090](http://localhost:8090) to find an ugly but convenient demo setup page
+    - it allows for GDrive authorization
     - Kafka Sink/Source creation
     - Start of new Process Instances
 

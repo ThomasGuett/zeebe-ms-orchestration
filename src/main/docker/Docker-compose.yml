@@ -1,5 +1,5 @@
 services:
-  service1:
+  place-cup:
     image: camunda/demo-microservice
     environment:
       workerType: place-cup
@@ -11,7 +11,7 @@ services:
     networks:
       - proxy
 
-  service2:
+  grind-coffee:
     image: camunda/demo-microservice
     environment:
       workerType: grind-coffee
@@ -22,7 +22,7 @@ services:
     networks:
       - proxy
 
-  service3:
+  pour-water:
     image: camunda/demo-microservice
     environment:
       workerType: pour-water
