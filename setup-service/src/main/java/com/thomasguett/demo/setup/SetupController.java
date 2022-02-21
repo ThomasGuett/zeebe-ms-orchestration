@@ -65,10 +65,7 @@ public class SetupController {
     private static final String KAFKA_SOURCE_BODY_PATH = "/ZeebeSourceConnectorBody.json";
     private static final String KAFKA_SINK_BODY_PATH = "/ZeebeSinkConnectorBody.json";
 
-    @Value("${driveWorkerType:}")
-    private String driveWorkerType;
-
-    @ZeebeWorker(type = "${driveWorkerType:WriteToGoogle}")
+    @ZeebeWorker(type = "${jobType:writeToGoogle}")
     public void writeToGoogleDrive(final JobClient client, final ActivatedJob job) throws IOException, GeneralSecurityException {
         Map<String,Object> variables = job.getVariablesAsMap();
         String content = (String) variables.getOrDefault("content", "");
@@ -114,7 +111,7 @@ public class SetupController {
                 .send()
                 .whenComplete((result, exception) -> {
                     if(exception == null) {
-                        System.out.println("completed job successfully: " + driveWorkerType);
+                        System.out.println("completed job successfully: write-to-google");
                     } else {
                         System.out.println("failed to complete job: " + exception);
                     }

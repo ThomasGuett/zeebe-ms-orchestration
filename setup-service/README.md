@@ -7,7 +7,6 @@ in a common environment:
     - combined with Kafka
 
 for better visualization this demo also includes:
-    - integration of Consul (microservice health check: [http://localhost:8500](http://localhost:8500))
     - GoogleDrive integration (authorization required)
 
 ### Preparations for demo
@@ -51,9 +50,6 @@ open [http://localhost:8090](http://localhost:8090) to find an ugly but convenie
 
 # authorize google drive
 open [http://localhost:8090/authorizegoogledrive](http://localhost:8090/authorizegoogledrive)
-
-# check up-status of microservices (grind coffee, etc. ) - consul
-open [http://localhost:8500](http://localhost:8500/)
 
 # check Kafka cluster health
 open [http://localhost:9021](http://localhost:9021/)
