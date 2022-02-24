@@ -20,7 +20,7 @@ public class Application {
 
     public static void main(String[] args) { SpringApplication.run(Application.class, args);}
 
-    @ZeebeWorker(type = "${jobType:concatinate}")
+    @ZeebeWorker(type = "${jobType:coffee-service}")
     public void handleJob(final JobClient client, final ActivatedJob job) {
         Map<String,Object> variables = job.getVariablesAsMap();
         String content = (String) variables.getOrDefault("content", "");
