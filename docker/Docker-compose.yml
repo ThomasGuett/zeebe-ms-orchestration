@@ -4,7 +4,7 @@ services:
     image: camunda/demo-microservice
     environment:
       jobType: place-cup
-      consulDiscoveryPort: 8091
+      serverPort: 8091
     ports:
       - 8091:8091
     networks:
@@ -14,7 +14,7 @@ services:
     image: camunda/demo-microservice
     environment:
       jobType: grind-coffee
-      consulDiscoveryPort: 8092
+      serverPort: 8092
     ports:
       - 8092:8092
     networks:
@@ -24,7 +24,7 @@ services:
     image: camunda/demo-microservice
     environment:
       jobType: pour-water
-      consulDiscoveryPort: 8093
+      serverPort: 8093
     ports:
       - 8093:8093
     networks:
@@ -34,7 +34,7 @@ services:
     image: camunda/setup-service
     environment:
       jobType: writeToGoogle
-      consulDiscoveryPort: 8090
+      serverPort: 8090
     ports:
       - 8090:8090
       - 9081:9081
