@@ -1,4 +1,5 @@
-**/application.properties
+/setup-service/src/main/resources/application.properties
+/coffee-service/src/main/resources/application.properties
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/

@@ -1,10 +1,21 @@
 <mat-card>
+    <p class="headline">processed coffee</p>
     <form [formGroup]="form" (ngSubmit)="orderCoffee()">
+        <p>send it to:</p>
         <mat-radio-group aria-label="Select destination" formControlName="direction">
             <mat-radio-button value="toKafka" class="radio-btn">to Kafka</mat-radio-button>
             <mat-radio-button value="toGoogleDrive" class="radio-btn">to GoogleDrive</mat-radio-button>
             <mat-radio-button value="toColleague" class="radio-btn">to Colleague</mat-radio-button>
         </mat-radio-group>
+        <mat-form-field appearance="fill" color="secondary">
+            <mat-label>Your name</mat-label>
+            <input type="text" matInput formControlName="name">
+        </mat-form-field>
+        <mat-divider [inset]="true"></mat-divider>
+        <div *ngIf="processId !== ''">
+            <p>started Process with ID:</p>
+            <p class="confirm-text"> {{processId}} </p>
+        </div>
         <button mat-raised-button color="primary" class="send-btn" type="submit">order Coffee</button>
     </form>
 </mat-card>

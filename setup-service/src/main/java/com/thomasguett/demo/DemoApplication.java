@@ -1,5 +1,6 @@
 package com.thomasguett.demo;
 
+import com.thomasguett.demo.objects.ProcessStart;
 import io.camunda.zeebe.spring.client.EnableZeebeClient;
 import io.camunda.zeebe.spring.client.ZeebeClientLifecycle;
 import org.json.JSONObject;
@@ -23,21 +24,25 @@ public class DemoApplication {
 
 	@PostMapping(value = "/startInstance")
 	public String startWorkflowInstance(
-			@RequestParam(name = "kafkaTopicName", required = false) String topicName,
-			@RequestParam(name = "kafkaKey", required = false) String kafkaKey,
-			@RequestParam(name = "direction", required = false) String direction
-	) {
+			@RequestBody ProcessStart processStart
+			) {
 		JSONObject jsonInstanceContent = new JSONObject();
-		if(null != topicName && !topicName.isBlank()
-		&& null != kafkaKey && !kafkaKey.isBlank()) {
-			jsonInstanceContent.put("name", topicName);
-			jsonInstanceContent.put("key", kafkaKey);
-			jsonInstanceContent.put("ttl", 10000);
-			jsonInstanceContent.put("payload", new JSONObject());
+		if(null != processStart) {
+			if(null != processStart.getKafkaTopicName() && !processStart.getKafkaTopicName().isBlank()
+					&& null != processStart.getKafkaKey() && !processStart.getKafkaKey().isBlank()) {
+				jsonInstanceContent.put("name", processStart.getKafkaTopicName());
+				jsonInstanceContent.put("key", processStart.getKafkaKey());
+				jsonInstanceContent.put("ttl", 10000);
+				jsonInstanceContent.put("payload", new JSONObject());
+			}
 		}
 
-		if(null != direction && !direction.isBlank()) {
-			jsonInstanceContent.put("direction", direction);
+		if(null != processStart.getDirection() && !processStart.getDirection().isBlank()) {
+			jsonInstanceContent.put("direction", processStart.getDirection());
+		}
+
+		if(null != processStart.getName() && !processStart.getName().isBlank()) {
+			jsonInstanceContent.put("coffee_recipient", processStart.getName());
 		}
 
 		long instanceKey = client
