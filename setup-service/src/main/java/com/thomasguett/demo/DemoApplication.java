@@ -23,7 +23,8 @@ public class DemoApplication {
 	@PostMapping(value = "/startInstance")
 	public String startWorkflowInstance(
 			@RequestParam(name = "kafkaTopicName", required = false) String topicName,
-			@RequestParam(name = "kafkaKey", required = false) String kafkaKey
+			@RequestParam(name = "kafkaKey", required = false) String kafkaKey,
+			@RequestParam(name = "direction", required = false) String direction
 	) {
 		JSONObject jsonInstanceContent = new JSONObject();
 		if(null != topicName && !topicName.isBlank()
@@ -32,6 +33,10 @@ public class DemoApplication {
 			jsonInstanceContent.put("key", kafkaKey);
 			jsonInstanceContent.put("ttl", 10000);
 			jsonInstanceContent.put("payload", new JSONObject());
+		}
+
+		if(null != direction && !direction.isBlank()) {
+			jsonInstanceContent.put("direction", direction);
 		}
 
 		long instanceKey = client

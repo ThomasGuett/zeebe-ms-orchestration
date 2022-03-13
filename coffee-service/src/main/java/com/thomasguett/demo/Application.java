@@ -26,6 +26,10 @@ public class Application {
         String content = (String) variables.getOrDefault("content", "");
         variables.put("content", content + "_" + jobType);
 
+        if(null != job.getVariablesAsMap().getOrDefault("error", null)) {
+            throw new RuntimeException("I'm a tea maker now");
+        }
+
         client.newCompleteCommand(job.getKey())
                 .variables(variables)
                 .send()
