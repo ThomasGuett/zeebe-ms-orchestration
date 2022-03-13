@@ -1,3 +1,4 @@
+**/application.properties
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
@@ -34,3 +35,4 @@ build/
 
 ### Angular App ###
 **/node_modules/
+**/.angular/
