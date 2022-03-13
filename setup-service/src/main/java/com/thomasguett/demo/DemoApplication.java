@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @SpringBootApplication
 @EnableZeebeClient
 @RestController
+@CrossOrigin("*")
 public class DemoApplication {
 
 	@Autowired

@@ -25,6 +25,12 @@ for better visualization this demo also includes:
   - setup credentials (Desktop Application): [https://developers.google.com/workspace/guides/create-credentials#desktop-app](https://developers.google.com/workspace/guides/create-credentials#desktop-app)
   - follow through this guide and create your credentials.json, save it as ./src/main/resources/credentials-google.json
 
+# prepare Angular project (welcome page for externals)
+- go to ./processStarter and run "ng build" in console
+- builds the project into ./docker/web
+- you can use ngrok with configured tunnels for 8080 (web interface) and 8090 (api interface) to serve to external guests
+- IMPORTANT be sure to update base-URL in Angular-Project (./processStarter/src/app/home/home.component.ts:13)
+
 ### Start Demo
 to build and run the containers, follow these steps:
 (Linux/Mac users can also just run ./setup.sh - CAUTION will wipe unused shut down Docker container, to prevent that 

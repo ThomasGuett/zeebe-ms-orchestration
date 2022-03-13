@@ -1,0 +1,10 @@
+<mat-card>
+    <form [formGroup]="form" (ngSubmit)="orderCoffee()">
+        <mat-radio-group aria-label="Select destination" formControlName="direction">
+            <mat-radio-button value="toKafka" class="radio-btn">to Kafka</mat-radio-button>
+            <mat-radio-button value="toGoogleDrive" class="radio-btn">to GoogleDrive</mat-radio-button>
+            <mat-radio-button value="toColleague" class="radio-btn">to Colleague</mat-radio-button>
+        </mat-radio-group>
+        <button mat-raised-button color="primary" class="send-btn" type="submit">order Coffee</button>
+    </form>
+</mat-card>

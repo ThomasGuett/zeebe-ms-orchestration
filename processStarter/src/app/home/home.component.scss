@@ -1,0 +1,30 @@
+:host {
+    background: black;
+    width: 100%;
+    //height: 100%;
+    align-items: center;
+
+    .mat-card {
+        background-color: #F7F7F7;
+        padding: 2em;
+        margin: 2em;
+        text-align: center;
+    }
+
+    .send-btn {
+        font-size: 16px;
+        padding: 1em 4em;
+        margin: 2em 0;
+    }
+
+    .radio-btn {
+        width: 100%;
+        padding: 1em;
+        font-size: 17px;
+    }
+
+    .mat-primary {
+        color: black;
+        background-color: #FC5D0D;
+    }
+}

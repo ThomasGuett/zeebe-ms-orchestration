@@ -31,3 +31,6 @@ build/
 ### VS Code ###
 .vscode/
 /src/main/resources/credentials-google.json
+
+### Angular App ###
+**/node_modules/
